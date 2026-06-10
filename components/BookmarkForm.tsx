@@ -130,11 +130,11 @@ export default function BookmarkForm({ bookmark, onSuccess, onCancel }: Bookmark
         </div>
       )}
 
-      <div className="flex gap-3">
+      <div className="flex flex-col sm:flex-row gap-3">
         <button
           type="submit"
           disabled={loading}
-          className="flex-1 rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed"
+          className="flex-1 w-full sm:w-auto rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed"
         >
           {loading ? 'Saving...' : isEditing ? 'Update Bookmark' : 'Create Bookmark'}
         </button>
@@ -143,7 +143,7 @@ export default function BookmarkForm({ bookmark, onSuccess, onCancel }: Bookmark
             type="button"
             onClick={onCancel}
             disabled={loading}
-            className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800 disabled:cursor-not-allowed"
+            className="w-full sm:w-auto rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800 disabled:cursor-not-allowed"
           >
             Cancel
           </button>

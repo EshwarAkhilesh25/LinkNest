@@ -27,17 +27,17 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <Navigation />
-      <main className="mx-auto max-w-md px-6 py-12">
+      <main className="mx-auto max-w-md px-4 sm:px-6 py-8 sm:py-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Card className="p-8">
-            <h1 className="mb-6 text-3xl font-bold text-gray-900 dark:text-white">
+          <Card className="p-6 sm:p-8">
+            <h1 className="mb-4 sm:mb-6 text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
               Create Account
             </h1>
-            <p className="mb-6 text-gray-600 dark:text-gray-400">
+            <p className="mb-4 sm:mb-6 text-sm sm:text-base text-gray-600 dark:text-gray-400">
               Join LinkNest to manage your bookmarks
             </p>
             

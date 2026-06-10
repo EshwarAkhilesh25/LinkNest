@@ -300,12 +300,14 @@ export async function forgotPassword(formData: FormData) {
   }
 
   try {
-    const redirectTo = process.env.NODE_ENV === 'development'
-      ? 'http://localhost:3000/reset-password'
-      : `${process.env.NEXT_PUBLIC_SUPABASE_URL?.split('//')[0]}//${process.env.NEXT_PUBLIC_SUPABASE_URL?.split('//')[1]?.split('.')[0]}.vercel.app/reset-password`
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+    const redirectTo = `${siteUrl}/reset-password`
+
+    console.log('SITE URL:', siteUrl)
+    console.log('RESET PASSWORD URL:', redirectTo)
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: redirectTo || 'http://localhost:3000/reset-password',
+      redirectTo: redirectTo,
     })
 
     if (error) {

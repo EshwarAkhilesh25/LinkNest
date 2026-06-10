@@ -63,21 +63,21 @@ export default function BookmarkItem({ bookmark, onEdit, onDelete }: BookmarkIte
   })
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-      <div className="flex items-start justify-between gap-4">
+    <div className="rounded-lg border border-gray-200 bg-white p-3 sm:p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900 overflow-hidden">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-4">
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white truncate">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white truncate">
             {bookmark.title}
           </h3>
           <a
             href={bookmark.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-1 block text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 truncate"
+            className="mt-1 block text-xs sm:text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 break-all"
           >
             {bookmark.url}
           </a>
-          <div className="mt-2 flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+          <div className="mt-2 flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
             <span className="flex items-center gap-1">
               {bookmark.is_public ? (
                 <>

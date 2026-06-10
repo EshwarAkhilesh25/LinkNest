@@ -54,7 +54,7 @@ export default function Home() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <Navigation />
-        <main className="mx-auto max-w-6xl px-6 py-12">
+        <main className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-12">
           <div className="text-center">
             <p className="text-gray-600 dark:text-gray-400">Loading...</p>
           </div>
@@ -67,29 +67,29 @@ export default function Home() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <Navigation />
-        <main className="mx-auto max-w-6xl px-6 py-12">
+        <main className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-12">
           <div className="text-center">
             <div className="mb-8 inline-flex items-center justify-center w-20 h-20 rounded-full bg-amber-100 dark:bg-amber-900/30">
               <svg className="w-10 h-10 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
             </div>
-            <h1 className="mb-4 text-5xl font-bold text-gray-900 dark:text-white">
+            <h1 className="mb-4 text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white">
               Password Reset In Progress
             </h1>
-            <p className="mb-8 text-xl text-gray-600 dark:text-gray-400">
+            <p className="mb-6 sm:mb-8 text-lg sm:text-xl text-gray-600 dark:text-gray-400">
               Please reset your password to continue.
             </p>
-            <div className="flex gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <Link
                 href="/reset-password"
-                className="rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700 transition-colors"
+                className="w-full sm:w-auto rounded-lg bg-blue-600 px-4 sm:px-6 py-2 sm:py-3 text-white hover:bg-blue-700 transition-colors text-center"
               >
                 Continue Reset Password
               </Link>
               <button
                 onClick={handleLogout}
-                className="rounded-lg border border-gray-300 px-6 py-3 text-gray-700 hover:bg-gray-100 transition-colors dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+                className="w-full sm:w-auto rounded-lg border border-gray-300 px-4 sm:px-6 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 transition-colors dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
               >
                 Logout
               </button>
@@ -104,21 +104,21 @@ export default function Home() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <Navigation />
-        <main className="mx-auto max-w-6xl px-6 py-12">
+        <main className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="text-center"
           >
-            <h1 className="mb-4 text-5xl font-bold text-gray-900 dark:text-white">
+            <h1 className="mb-4 text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white">
               Welcome back, @{profile?.handle || 'user'}
             </h1>
-            <p className="mb-8 text-xl text-gray-600 dark:text-gray-400">
+            <p className="mb-6 sm:mb-8 text-lg sm:text-xl text-gray-600 dark:text-gray-400">
               Continue managing your bookmarks
             </p>
-            <Link href="/dashboard">
-              <Button size="lg">Go to Dashboard</Button>
+            <Link href="/dashboard" className="inline-block">
+              <Button size="lg" className="w-full sm:w-auto">Go to Dashboard</Button>
             </Link>
           </motion.div>
         </main>
@@ -186,22 +186,22 @@ export default function Home() {
             }}
             className="inline-block mb-6"
           >
-            <h1 className="text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
               LinkNest
             </h1>
           </motion.div>
-          <p className="mb-4 text-2xl text-gray-700 dark:text-gray-300">
+          <p className="mb-3 sm:mb-4 text-xl sm:text-2xl text-gray-700 dark:text-gray-300">
             Your Personal Link Management Platform
           </p>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Organize, share, and manage your bookmarks with a modern, secure, and intuitive platform designed for productivity.
           </p>
-          <div className="flex gap-4 justify-center mt-8">
-            <Link href="/signup">
-              <Button size="lg">Get Started</Button>
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-6 sm:mt-8">
+            <Link href="/signup" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full sm:w-auto">Get Started</Button>
             </Link>
-            <Link href="/login">
-              <Button size="lg" variant="outline">Sign In</Button>
+            <Link href="/login" className="w-full sm:w-auto">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto">Sign In</Button>
             </Link>
           </div>
         </motion.div>
@@ -210,7 +210,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
         >
           {features.map((feature, index) => (
             <motion.div
@@ -219,14 +219,14 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
             >
-              <Card hover className="p-6 h-full">
-                <div className="mb-4 text-blue-600 dark:text-blue-400">
+              <Card hover className="p-4 sm:p-6 h-full">
+                <div className="mb-3 sm:mb-4 text-blue-600 dark:text-blue-400">
                   {feature.icon}
                 </div>
-                <h3 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+                <h3 className="mb-2 text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
                   {feature.description}
                 </p>
               </Card>

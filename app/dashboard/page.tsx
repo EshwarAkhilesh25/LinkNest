@@ -101,7 +101,7 @@ export default function DashboardPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <Navigation />
-        <main className="mx-auto max-w-6xl px-6 py-12">
+        <main className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-12">
           <div className="text-center">
             <p className="text-gray-600 dark:text-gray-400">Loading...</p>
           </div>
@@ -119,69 +119,69 @@ export default function DashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="mb-8 flex items-center justify-between">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+          <div className="mb-6 sm:mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
               Dashboard
             </h1>
             {!showCreateForm && !editingBookmark && (
-              <Button onClick={() => setShowCreateForm(true)}>
+              <Button onClick={() => setShowCreateForm(true)} className="w-full sm:w-auto">
                 + New Bookmark
               </Button>
             )}
           </div>
 
           {/* Statistics Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
             {loading ? (
               <>
-                <Card className="p-6">
-                  <Skeleton className="h-20" />
+                <Card className="p-4 sm:p-6">
+                  <Skeleton className="h-16 sm:h-20" />
                 </Card>
-                <Card className="p-6">
-                  <Skeleton className="h-20" />
+                <Card className="p-4 sm:p-6">
+                  <Skeleton className="h-16 sm:h-20" />
                 </Card>
-                <Card className="p-6">
-                  <Skeleton className="h-20" />
+                <Card className="p-4 sm:p-6">
+                  <Skeleton className="h-16 sm:h-20" />
                 </Card>
               </>
             ) : (
               <>
-                <Card className="p-6">
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-lg bg-blue-100 dark:bg-blue-900/30">
-                      <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <Card className="p-4 sm:p-6">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="p-2 sm:p-3 rounded-lg bg-blue-100 dark:bg-blue-900/30">
+                      <svg className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Total Bookmarks</p>
-                      <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.total}</p>
+                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Total Bookmarks</p>
+                      <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{stats.total}</p>
                     </div>
                   </div>
                 </Card>
-                <Card className="p-6">
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-lg bg-green-100 dark:bg-green-900/30">
-                      <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <Card className="p-4 sm:p-6">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="p-2 sm:p-3 rounded-lg bg-green-100 dark:bg-green-900/30">
+                      <svg className="w-5 h-5 sm:w-6 sm:h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Public Links</p>
-                      <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.public}</p>
+                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Public Links</p>
+                      <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{stats.public}</p>
                     </div>
                   </div>
                 </Card>
-                <Card className="p-6">
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-lg bg-purple-100 dark:bg-purple-900/30">
-                      <svg className="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <Card className="p-4 sm:p-6">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="p-2 sm:p-3 rounded-lg bg-purple-100 dark:bg-purple-900/30">
+                      <svg className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Recently Added</p>
-                      <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.recent}</p>
+                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Recently Added</p>
+                      <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{stats.recent}</p>
                     </div>
                   </div>
                 </Card>
@@ -189,7 +189,7 @@ export default function DashboardPage() {
             )}
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div className="grid gap-4 sm:gap-6 lg:grid-cols-3">
             {/* Form Section */}
             {(showCreateForm || editingBookmark) && (
               <motion.div
@@ -198,8 +198,8 @@ export default function DashboardPage() {
                 transition={{ duration: 0.3 }}
                 className="lg:col-span-1"
               >
-                <Card className="p-6">
-                  <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
+                <Card className="p-4 sm:p-6">
+                  <h2 className="mb-3 sm:mb-4 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white">
                     {editingBookmark ? 'Edit Bookmark' : 'Create Bookmark'}
                   </h2>
                   <BookmarkForm
@@ -221,8 +221,8 @@ export default function DashboardPage() {
               transition={{ duration: 0.3 }}
               className={showCreateForm || editingBookmark ? 'lg:col-span-2' : 'lg:col-span-3'}
             >
-              <Card className="p-6">
-                <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
+              <Card className="p-4 sm:p-6">
+                <h2 className="mb-3 sm:mb-4 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white">
                   Your Bookmarks
                 </h2>
                 <BookmarkList
