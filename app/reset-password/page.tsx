@@ -22,24 +22,56 @@ export default function ResetPasswordPage() {
   useEffect(() => {
     const supabase = createClient();
     
+    // DEBUG: Log URL search params
+    console.log('[RESET-PASSWORD] Current URL:', window.location.href);
+    console.log('[RESET-PASSWORD] Search params:', window.location.search);
+    console.log('[RESET-PASSWORD] Hash:', window.location.hash);
+    
+    // Check for code parameter in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    console.log('[RESET-PASSWORD] Code parameter:', code ? 'FOUND' : 'NOT FOUND');
+    
+    if (code) {
+      console.log('[RESET-PASSWORD] Attempting to exchange code for session...');
+      supabase.auth.exchangeCodeForSession(code).then(({ data, error }) => {
+        console.log('[RESET-PASSWORD] Exchange result:', { data, error });
+        if (error) {
+          console.error('[RESET-PASSWORD] Code exchange failed:', error);
+          setError('Invalid or expired password reset link. Please request a new one.');
+          setVerifying(false);
+        } else if (data.session) {
+          console.log('[RESET-PASSWORD] Session created successfully');
+          setHasRecoveryToken(true);
+          setVerifying(false);
+        }
+      });
+    }
+    
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('[RESET-PASSWORD] Auth state change:', event, session ? 'SESSION_EXISTS' : 'NO_SESSION');
       if (event === 'PASSWORD_RECOVERY') {
+        console.log('[RESET-PASSWORD] PASSWORD_RECOVERY event detected');
         setHasRecoveryToken(true);
         setVerifying(false);
       }
     });
     
     supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log('[RESET-PASSWORD] Initial session check:', session ? 'SESSION_EXISTS' : 'NO_SESSION');
       if (session) {
         setHasRecoveryToken(true);
         setVerifying(false);
-      } else {
+      } else if (!code) {
+        // Only show error if there's no code parameter
         setTimeout(() => {
           supabase.auth.getSession().then(({ data: { session: session2 } }) => {
+            console.log('[RESET-PASSWORD] Retry session check:', session2 ? 'SESSION_EXISTS' : 'NO_SESSION');
             if (session2) {
               setHasRecoveryToken(true);
               setVerifying(false);
             } else {
+              console.error('[RESET-PASSWORD] No session found and no code parameter');
               setError('Invalid or expired password reset link. Please request a new one.');
               setVerifying(false);
             }
