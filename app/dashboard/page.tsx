@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Navigation from '@/components/Navigation'
 import BookmarkForm from '@/components/BookmarkForm'
 import BookmarkList from '@/components/BookmarkList'
@@ -10,6 +11,7 @@ import { motion } from 'framer-motion'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Skeleton from '@/components/ui/Skeleton'
+import Toast from '@/components/ui/Toast'
 
 /**
  * Dashboard Page
@@ -26,12 +28,16 @@ import Skeleton from '@/components/ui/Skeleton'
  * - Toggle public/private visibility
  */
 export default function DashboardPage() {
+  const router = useRouter()
   const [user, setUser] = useState<any>(null)
   const [showCreateForm, setShowCreateForm] = useState(false)
   const [editingBookmark, setEditingBookmark] = useState<Bookmark | null>(null)
   const [bookmarkListKey, setBookmarkListKey] = useState(0)
   const [stats, setStats] = useState({ total: 0, public: 0, recent: 0 })
   const [loading, setLoading] = useState(true)
+  const [profile, setProfile] = useState<{ handle: string } | null>(null)
+  const [profileLoading, setProfileLoading] = useState(true)
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
   const supabase = createClient()
 
   useEffect(() => {
@@ -79,7 +85,26 @@ export default function DashboardPage() {
       }
     }
 
+    const fetchProfile = async () => {
+      try {
+        const { data: profileData } = await supabase
+          .from('profiles')
+          .select('handle')
+          .eq('id', user.id)
+          .single()
+
+        if (profileData) {
+          setProfile(profileData)
+        }
+      } catch (error) {
+        // Error fetching profile
+      } finally {
+        setProfileLoading(false)
+      }
+    }
+
     fetchStats()
+    fetchProfile()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, bookmarkListKey])
 
@@ -95,6 +120,18 @@ export default function DashboardPage() {
 
   function handleBookmarkChange() {
     setBookmarkListKey(prev => prev + 1)
+  }
+
+  function handleCopyProfileLink() {
+    if (!profile?.handle) return
+    const profileUrl = `${window.location.origin}/${profile.handle}`
+    navigator.clipboard.writeText(profileUrl)
+    setToast({ message: 'Profile link copied successfully', type: 'success' })
+  }
+
+  function handleViewProfile() {
+    if (!profile?.handle) return
+    router.push(`/${profile.handle}`)
   }
 
   if (!user) {
@@ -113,7 +150,7 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <Navigation />
-      <main className="mx-auto max-w-6xl px-6 py-12">
+      <main className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -189,6 +226,51 @@ export default function DashboardPage() {
             )}
           </div>
 
+          {/* Public Profile Card */}
+          <div className="mb-6 sm:mb-8">
+            {profileLoading ? (
+              <Card className="p-4 sm:p-6">
+                <Skeleton className="h-20 sm:h-24" />
+              </Card>
+            ) : profile ? (
+              <Card className="p-4 sm:p-6">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div className="flex-1">
+                    <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                      Public Profile
+                    </h2>
+                    <div className="space-y-1 sm:space-y-2">
+                      <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+                        <span className="font-medium">@{profile.handle}</span>
+                      </p>
+                      <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-500 break-all">
+                        {window.location.origin}/{profile.handle}
+                      </p>
+                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                        {stats.public} public bookmark{stats.public !== 1 ? 's' : ''}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                    <Button
+                      onClick={handleViewProfile}
+                      variant="outline"
+                      className="w-full sm:w-auto"
+                    >
+                      View Profile
+                    </Button>
+                    <Button
+                      onClick={handleCopyProfileLink}
+                      className="w-full sm:w-auto"
+                    >
+                      Copy Link
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            ) : null}
+          </div>
+
           <div className="grid gap-4 sm:gap-6 lg:grid-cols-3">
             {/* Form Section */}
             {(showCreateForm || editingBookmark) && (
@@ -234,6 +316,13 @@ export default function DashboardPage() {
             </motion.div>
           </div>
         </motion.div>
+        {toast && (
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={() => setToast(null)}
+          />
+        )}
       </main>
     </div>
   )

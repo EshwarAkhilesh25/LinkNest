@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { logout } from "@/app/auth/actions";
 import { useTheme } from "@/contexts/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
+import Toast from "@/components/ui/Toast";
 
 /**
  * Navigation Component
@@ -34,6 +35,7 @@ export default function Navigation() {
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const themeContext = useTheme();
   const theme = themeContext?.theme || 'light';
   const toggleTheme = themeContext?.toggleTheme || (() => {});
@@ -93,6 +95,13 @@ export default function Navigation() {
     await logout();
   }
 
+  function handleCopyProfileLink() {
+    if (!profile?.handle) return;
+    const profileUrl = `${window.location.origin}/${profile.handle}`;
+    navigator.clipboard.writeText(profileUrl);
+    setToast({ message: 'Profile link copied successfully', type: 'success' });
+  }
+
   const navLinks = [
     { href: '/', label: 'Home' },
   ];
@@ -144,6 +153,17 @@ export default function Navigation() {
                 <span className="text-sm text-gray-600 dark:text-gray-400">
                   @{profile?.handle || 'user'}
                 </span>
+                {profile?.handle && (
+                  <button
+                    onClick={handleCopyProfileLink}
+                    className="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors"
+                    title="Copy profile link"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                    </svg>
+                  </button>
+                )}
               </div>
               <button
                 onClick={handleLogout}
@@ -219,8 +239,23 @@ export default function Navigation() {
                 <span className="text-gray-600 dark:text-gray-400">Loading...</span>
               ) : user ? (
                 <>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    @{profile?.handle || 'user'}
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                      @{profile?.handle || 'user'}
+                    </div>
+                    {profile?.handle && (
+                      <button
+                        onClick={() => {
+                          handleCopyProfileLink();
+                        }}
+                        className="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors"
+                        title="Copy profile link"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                        </svg>
+                      </button>
+                    )}
                   </div>
                   <button
                     onClick={() => {
@@ -254,6 +289,13 @@ export default function Navigation() {
           </motion.div>
         )}
       </AnimatePresence>
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </nav>
   );
 }
