@@ -22,22 +22,10 @@ export default function ResetPasswordPage() {
   useEffect(() => {
     const supabase = createClient();
     
-    // Check for code parameter in URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
-    
-    if (code) {
-      // Exchange the code for a session
-      supabase.auth.exchangeCodeForSession(code).then(({ data, error }) => {
-        if (error) {
-          setError('Invalid or expired password reset link. Please request a new one.');
-          setVerifying(false);
-        } else if (data.session) {
-          setHasRecoveryToken(true);
-          setVerifying(false);
-        }
-      });
-    }
+    // For PKCE password recovery flow, Supabase automatically establishes a session
+    // and fires the PASSWORD_RECOVERY auth state change event.
+    // We should rely on the auth state change event, not on URL parameters.
+    // exchangeCodeForSession is for OAuth flows, not password recovery.
     
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'PASSWORD_RECOVERY') {
@@ -46,12 +34,13 @@ export default function ResetPasswordPage() {
       }
     });
     
+    // Check if session already exists (user already authenticated)
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         setHasRecoveryToken(true);
         setVerifying(false);
-      } else if (!code) {
-        // Only show error if there's no code parameter
+      } else {
+        // If no session after a short delay, show error
         setTimeout(() => {
           supabase.auth.getSession().then(({ data: { session: session2 } }) => {
             if (session2) {
@@ -62,7 +51,7 @@ export default function ResetPasswordPage() {
               setVerifying(false);
             }
           });
-        }, 500);
+        }, 1000);
       }
     });
     
