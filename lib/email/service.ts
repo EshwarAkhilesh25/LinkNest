@@ -42,7 +42,7 @@ export async function sendWelcomeEmail(email: string, handle: string) {
   }
 
   try {
-    const dashboardUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL?.replace('supabase.co', 'supabase.co/auth/v1') || 'http://localhost:3000'}/dashboard`
+    const dashboardUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/dashboard`
 
     const { data, error } = await resend.emails.send({
       from: 'LinkNest <onboarding@resend.dev>',
